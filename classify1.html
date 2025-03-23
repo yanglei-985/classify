@@ -1,0 +1,1838 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法语词汇分类与记忆系统</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6d98ba;
+            --accent-color: #ff9a3c;
+            --light-bg: #f5f7fa;
+            --dark-bg: #2c3e50;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --text-dark: #333;
+            --text-light: #f8f9fa;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: var(--text-dark);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .flex {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .space-between {
+            justify-content: space-between;
+        }
+
+        .align-center {
+            align-items: center;
+        }
+
+        .col-1-2 {
+            flex: 0 0 calc(50% - 15px);
+        }
+
+        .col-1-3 {
+            flex: 0 0 calc(33.333% - 20px);
+        }
+
+        .col-2-3 {
+            flex: 0 0 calc(66.666% - 20px);
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .sidebar {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-item {
+            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .category-item:hover {
+            background-color: var(--light-bg);
+        }
+
+        .category-item.active {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .sub-category {
+            margin-left: 20px;
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .word-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .word-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .word-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .word-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .phonetic {
+            color: var(--secondary-color);
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .translation {
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .example {
+            padding: 10px;
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .category-tag {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--text-dark);
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-learning {
+            background-color: var(--warning);
+            color: var(--text-dark);
+        }
+
+        .status-mastered {
+            background-color: var(--success);
+            color: var(--text-light);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: white;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .tabs {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 10px;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .sub-tab-content {
+            display: none;
+        }
+
+        .sub-tab-content.active {
+            display: block;
+        }
+
+        .search-bar {
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .quiz-container {
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .quiz-options {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .quiz-option {
+            padding: 10px 15px;
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-option:hover {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+        }
+
+        .quiz-option.correct {
+            background-color: var(--success);
+            color: var(--text-light);
+        }
+
+        .quiz-option.incorrect {
+            background-color: var(--danger);
+            color: var(--text-light);
+        }
+
+        .quiz-progress {
+            margin-top: 20px;
+            height: 10px;
+            background-color: var(--light-bg);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        @media (max-width: 992px) {
+            .col-1-2, .col-1-3, .col-2-3 {
+                flex: 0 0 100%;
+            }
+            .sidebar {
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 10px;
+            }
+            .card {
+                padding: 15px;
+            }
+            .word-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>法语词汇分类与记忆系统</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="flex space-between mb-20">
+            <!-- Control Panel -->
+            <div class="card">
+                <div class="flex space-between align-center">
+                    <div>
+                        <button id="addWordBtn" class="btn btn-accent">添加单词</button>
+                        <button id="manageCategoriesBtn" class="btn">管理分类</button>
+                    </div>
+                    <div>
+                        <button id="exportBtn" class="btn">导出词库</button>
+                        <button id="importBtn" class="btn">导入词库</button>
+                        <button id="startQuizBtn" class="btn btn-success">开始测验</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex space-between">
+            <!-- Sidebar with Categories -->
+            <div class="col-1-3 sidebar">
+                <h3>词汇分类</h3>
+                <ul class="category-list" id="categoryList">
+                    <li class="category-item active" data-category="all">所有单词</li>
+                    <li class="category-item" data-category="learning">正在学习</li>
+                    <li class="category-item" data-category="mastered">已掌握</li>
+                    <li class="category-item has-children" data-category="economy">
+                        经济
+                        <ul class="sub-category">
+                            <li class="category-item" data-category="economy-macro">宏观经济</li>
+                            <li class="category-item" data-category="economy-micro">微观经济</li>
+                            <li class="category-item" data-category="economy-finance">金融市场</li>
+                        </ul>
+                    </li>
+                    <li class="category-item has-children" data-category="management">
+                        管理
+                        <ul class="sub-category">
+                            <li class="category-item" data-category="management-hr">人力资源</li>
+                            <li class="category-item" data-category="management-strategy">战略管理</li>
+                        </ul>
+                    </li>
+                    <li class="category-item" data-category="transportation">交通</li>
+                    <li class="category-item" data-category="education">教育</li>
+                </ul>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col-2-3">
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <input type="text" id="searchInput" class="search-input" placeholder="搜索单词、释义或例句...">
+                </div>
+
+                <!-- Word List -->
+                <div class="word-list" id="wordList">
+                    <!-- Words will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Word Modal -->
+    <div id="addWordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>添加新单词</h2>
+            <form id="addWordForm">
+                <div class="form-group">
+                    <label for="word">法语单词</label>
+                    <div class="flex space-between">
+                        <input type="text" id="word" class="form-control" style="width: 70%;" required>
+                        <button type="button" id="autoFillBtn" class="btn btn-accent">自动填充</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="phonetic">音标</label>
+                    <input type="text" id="phonetic" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="translation">释义</label>
+                    <input type="text" id="translation" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="example">例句</label>
+                    <textarea id="example" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="category">分类</label>
+                    <select id="category" class="form-control" required>
+                        <option value="">选择分类</option>
+                        <option value="economy-macro">经济 - 宏观经济</option>
+                        <option value="economy-micro">经济 - 微观经济</option>
+                        <option value="economy-finance">经济 - 金融市场</option>
+                        <option value="management-hr">管理 - 人力资源</option>
+                        <option value="management-strategy">管理 - 战略管理</option>
+                        <option value="transportation">交通</option>
+                        <option value="education">教育</option>
+                    </select>
+                    <button type="button" id="autoClassifyBtn" class="btn btn-accent mt-20">自动分类</button>
+                </div>
+                <div class="form-group">
+                    <label for="relatedWords">相关词汇（用逗号分隔）</label>
+                    <input type="text" id="relatedWords" class="form-control" placeholder="近义词、反义词或搭配词...">
+                </div>
+                <div class="form-group">
+                    <label for="status">学习状态</label>
+                    <select id="status" class="form-control">
+                        <option value="learning">正在学习</option>
+                        <option value="mastered">已掌握</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-accent">保存单词</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Manage Categories Modal -->
+    <div id="manageCategoriesModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>管理分类</h2>
+            <div class="tabs">
+                <div class="tab active" data-tab="existingCategories">现有分类</div>
+                <div class="tab" data-tab="addCategory">添加分类</div>
+                <div class="tab" data-tab="aiSuggestCategory">AI推荐分类</div>
+            </div>
+            <div class="tab-content active" id="existingCategories">
+                <ul id="categoryManagementList" class="category-list">
+                    <!-- Categories will be dynamically added here -->
+                </ul>
+            </div>
+            <div class="tab-content" id="addCategory">
+                <form id="addCategoryForm">
+                    <div class="form-group">
+                        <label for="categoryName">分类名称</label>
+                        <input type="text" id="categoryName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="parentCategory">父分类（可选）</label>
+                        <select id="parentCategory" class="form-control">
+                            <option value="">无（顶级分类）</option>
+                            <!-- Parent categories will be dynamically added here -->
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-accent">添加分类</button>
+                </form>
+            </div>
+            <div class="tab-content" id="aiSuggestCategory">
+                <p>输入法语单词，AI将识别并推荐适合的分类</p>
+                <div class="form-group">
+                    <label for="aiCategoryWord">法语单词</label>
+                    <input type="text" id="aiCategoryWord" class="form-control" placeholder="输入法语单词...">
+                </div>
+                <div class="form-group">
+                    <label for="aiCategoryTranslation">中文释义（可选）</label>
+                    <input type="text" id="aiCategoryTranslation" class="form-control" placeholder="输入中文释义...">
+                </div>
+                <button id="aiSuggestCategoryBtn" class="btn btn-accent">获取分类建议</button>
+                <div id="categoryResults" style="margin-top: 20px; display: none;">
+                    <h3>AI推荐分类：</h3>
+                    <div id="suggestedCategories" class="mt-20">
+                        <!-- Suggested categories will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <div id="importModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>导入词库</h2>
+            <div class="tabs">
+                <div class="tab active" data-tab="importJson">导入完整词库</div>
+                <div class="tab" data-tab="importCsv">批量导入词汇</div>
+            </div>
+            <div class="tab-content active" id="importJson">
+                <p>请选择之前导出的JSON文件:</p>
+                <div class="form-group">
+                    <input type="file" id="importFile" accept=".json">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="mergeExisting" checked>
+                        合并到现有词库（如不选择则会覆盖现有词库）
+                    </label>
+                </div>
+                <button id="confirmImportBtn" class="btn btn-accent">导入</button>
+            </div>
+            <div class="tab-content" id="importCsv">
+                <p>批量导入单词并自动填充信息</p>
+                <div class="tabs" style="border-bottom: 1px solid #eee; margin-bottom: 15px;">
+                    <div class="tab active" data-tab="csvFileImport">上传文件导入</div>
+                    <div class="tab" data-tab="csvTextImport">直接输入词汇</div>
+                </div>
+                <div id="csvImportContent">
+                    <div class="sub-tab-content active" id="csvFileImport">
+                        <p>请上传CSV文件，文件格式要求：</p>
+                        <ol style="margin-left: 20px; margin-bottom: 15px;">
+                            <li>第一列：法语单词</li>
+                            <li>第二列：中文释义（可选）</li>
+                        </ol>
+                        <div class="form-group">
+                            <input type="file" id="importCsvFile" accept=".csv,.txt">
+                        </div>
+                    </div>
+                    <div class="sub-tab-content" id="csvTextImport">
+                        <p>请直接输入法语单词，每行一个词汇：</p>
+                        <div class="form-group">
+                            <textarea id="importWordText" class="form-control" rows="10" placeholder="économie
+marché
+gestion
+..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button id="cleanupTextBtn" class="btn">清理文本</button>
+                            <span id="cleanupStatus" style="margin-left: 10px; display: none; color: var(--success);">✓ 已清理</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="autoFillCsvWords" checked>
+                            自动填充单词的音标、释义和例句
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="autoClassifyCsvWords" checked>
+                            自动分类导入的单词
+                        </label>
+                    </div>
+                    <button id="confirmCsvImportBtn" class="btn btn-accent">开始导入</button>
+                    <div id="importProgress" style="margin-top: 20px; display: none;">
+                        <h4>导入进度</h4>
+                        <div style="background-color: #f0f0f0; border-radius: 4px; height: 20px; overflow: hidden;">
+                            <div id="importProgressBar" style="background-color: var(--primary-color); height: 100%; width: 0%;"></div>
+                        </div>
+                        <p id="importStatus" style="margin-top: 10px;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div id="quizModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>词汇测验</h2>
+            <div class="quiz-container" id="quizContainer">
+                <div id="quizSetup">
+                    <div class="form-group">
+                        <label for="quizCategory">选择分类</label>
+                        <select id="quizCategory" class="form-control">
+                            <option value="all">所有单词</option>
+                            <!-- Categories will be dynamically added here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quizType">测验类型</label>
+                        <select id="quizType" class="form-control">
+                            <option value="fr-to-zh">法语 → 中文</option>
+                            <option value="zh-to-fr">中文 → 法语</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quizCount">题目数量</label>
+                        <select id="quizCount" class="form-control">
+                            <option value="5">5题</option>
+                            <option value="10" selected>10题</option>
+                            <option value="20">20题</option>
+                        </select>
+                    </div>
+                    <button id="startQuizNowBtn" class="btn btn-accent">开始测验</button>
+                </div>
+                <div id="quizQuestions" style="display: none;">
+                    <div id="questionContainer">
+                        <h3 id="quizQuestion"></h3>
+                        <ul class="quiz-options" id="quizOptions">
+                            <!-- Options will be dynamically added here -->
+                        </ul>
+                    </div>
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar" id="quizProgressBar"></div>
+                    </div>
+                    <div class="mt-20">
+                        <button id="nextQuestionBtn" class="btn btn-accent" style="display: none;">下一题</button>
+                        <button id="finishQuizBtn" class="btn btn-success" style="display: none;">完成测验</button>
+                    </div>
+                </div>
+                <div id="quizResults" style="display: none;">
+                    <h3>测验结果</h3>
+                    <p>得分: <span id="quizScore">0</span> / <span id="quizTotal">0</span></p>
+                    <div id="quizResultsList">
+                        <!-- Results will be dynamically added here -->
+                    </div>
+                    <button id="restartQuizBtn" class="btn btn-accent mt-20">重新测验</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main App Class
+            class VocabApp {
+                constructor() {
+                    this.words = [];
+                    this.categories = [];
+                    this.currentCategory = 'all';
+                    this.currentFilter = '';
+                    this.apiKey = 'sk-G8fwDqN0IaB0hayInoXa7I72vwSdd9V4C2K9c1wwmncvEHjH';
+                    this.apiUrl = 'https://api.aigc.bar/v1/chat/completions';
+                    this.init();
+                }
+
+                init() {
+                    this.loadData();
+                    this.setupEventListeners();
+                    this.renderCategories();
+                    this.renderWords();
+                    this.quizModule = new QuizModule(this);
+                    window.addEventListener('load', () => {
+                        this.renderCategories();
+                        this.renderWords();
+                    });
+                }
+
+                loadData() {
+                    try {
+                        const savedWords = localStorage.getItem('frenchVocabWords');
+                        if (savedWords) this.words = JSON.parse(savedWords);
+                        else this.loadSampleData();
+
+                        const savedCategories = localStorage.getItem('frenchVocabCategories');
+                        if (savedCategories) this.categories = JSON.parse(savedCategories);
+                        else this.initializeDefaultCategories();
+                    } catch (error) {
+                        console.error('Error loading data:', error);
+                        this.loadSampleData();
+                        this.initializeDefaultCategories();
+                    }
+                }
+
+                loadSampleData() {
+                    this.words = [
+                        { id: 1, word: 'économie', phonetic: '/ekɔnɔmi/', translation: '经济', example: "L'économie française a connu une croissance de 2% cette année.", category: 'economy-macro', relatedWords: 'économique, économiser', status: 'learning', lastReviewed: new Date().toISOString(), nextReview: new Date(Date.now() + 86400000).toISOString() },
+                        { id: 2, word: 'gestion', phonetic: '/ʒɛstjɔ̃/', translation: '管理', example: "La gestion efficace des ressources est essentielle pour toute entreprise.", category: 'management-strategy', relatedWords: 'gérer, gestionnaire', status: 'learning', lastReviewed: new Date().toISOString(), nextReview: new Date(Date.now() + 86400000).toISOString() },
+                        { id: 3, word: 'marché', phonetic: '/maʁʃe/', translation: '市场', example: "Le marché boursier a chuté de 5% hier.", category: 'economy-finance', relatedWords: 'commercial, marchandise', status: 'mastered', lastReviewed: new Date().toISOString(), nextReview: new Date(Date.now() + 259200000).toISOString() }
+                    ];
+                    this.saveData();
+                }
+
+                initializeDefaultCategories() {
+                    this.categories = [
+                        { id: 'economy', name: '经济', parent: null, children: ['economy-macro', 'economy-micro', 'economy-finance'] },
+                        { id: 'economy-macro', name: '宏观经济', parent: 'economy', children: [] },
+                        { id: 'economy-micro', name: '微观经济', parent: 'economy', children: [] },
+                        { id: 'economy-finance', name: '金融市场', parent: 'economy', children: [] },
+                        { id: 'management', name: '管理', parent: null, children: ['management-hr', 'management-strategy'] },
+                        { id: 'management-hr', name: '人力资源', parent: 'management', children: [] },
+                        { id: 'management-strategy', name: '战略管理', parent: 'management', children: [] },
+                        { id: 'transportation', name: '交通', parent: null, children: [] },
+                        { id: 'education', name: '教育', parent: null, children: [] }
+                    ];
+                    localStorage.setItem('frenchVocabCategories', JSON.stringify(this.categories));
+                }
+
+                saveData() {
+                    localStorage.setItem('frenchVocabWords', JSON.stringify(this.words));
+                    localStorage.setItem('frenchVocabCategories', JSON.stringify(this.categories));
+                }
+
+                async callApi(messages, temperature = 0.3) {
+                    const requestData = {
+                        model: 'gpt-3.5-turbo',
+                        messages,
+                        temperature,
+                        max_tokens: 4096
+                    };
+                    const response = await fetch(this.apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${this.apiKey}`
+                        },
+                        body: JSON.stringify(requestData)
+                    });
+                    if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+                    const data = await response.json();
+                    if (!data.choices || !data.choices[0]) throw new Error('Invalid API response');
+                    return data.choices[0].message.content.trim();
+                }
+
+                setupEventListeners() {
+                    document.getElementById('categoryList').addEventListener('click', (e) => {
+                        const item = e.target.closest('.category-item');
+                        if (item) {
+                            if (item.classList.contains('has-children')) {
+                                const subCategory = item.querySelector('.sub-category');
+                                if (subCategory) subCategory.classList.toggle('show');
+                            } else {
+                                document.querySelectorAll('.category-item').forEach(item => item.classList.remove('active'));
+                                item.classList.add('active');
+                                this.currentCategory = item.dataset.category;
+                                this.renderWords();
+                            }
+                        }
+                    });
+
+                    document.getElementById('searchInput').addEventListener('input', (e) => {
+                        this.currentFilter = e.target.value.toLowerCase();
+                        this.renderWords();
+                    });
+
+                    document.getElementById('addWordBtn').addEventListener('click', () => this.openModal('addWordModal'));
+                    document.getElementById('addWordForm').addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.addWord();
+                    });
+
+                    document.getElementById('manageCategoriesBtn').addEventListener('click', () => {
+                        this.renderCategoryManagement();
+                        this.openModal('manageCategoriesModal');
+                    });
+
+                    document.getElementById('addCategoryForm').addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.addCategory();
+                    });
+
+                    document.querySelectorAll('.tab').forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            const tabName = tab.dataset.tab;
+                            tab.closest('.tabs').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                            tab.closest('.modal-content, #importCsv').querySelectorAll('.tab-content, .sub-tab-content').forEach(c => c.classList.remove('active'));
+                            tab.classList.add('active');
+                            document.getElementById(tabName).classList.add('active');
+                        });
+                    });
+
+                    document.getElementById('autoClassifyBtn').addEventListener('click', () => this.autoClassifyWord());
+                    document.getElementById('autoFillBtn').addEventListener('click', () => this.autoFillWord());
+                    document.getElementById('aiSuggestCategoryBtn').addEventListener('click', () => this.getAiCategorySuggestions());
+                    document.getElementById('exportBtn').addEventListener('click', () => this.exportVocab());
+                    document.getElementById('importBtn').addEventListener('click', () => this.openModal('importModal'));
+                    document.getElementById('confirmImportBtn').addEventListener('click', () => this.importVocab());
+                    document.getElementById('confirmCsvImportBtn').addEventListener('click', () => this.importCsvVocab());
+                    document.getElementById('cleanupTextBtn').addEventListener('click', () => this.cleanupImportText());
+
+                    // 导入模态框内的子选项卡切换
+                    document.querySelectorAll('#importCsv .tabs .tab').forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            const tabName = tab.dataset.tab;
+                            document.querySelectorAll('#importCsv .tabs .tab').forEach(t => t.classList.remove('active'));
+                            document.querySelectorAll('#csvImportContent .sub-tab-content').forEach(c => c.classList.remove('active'));
+                            tab.classList.add('active');
+                            document.getElementById(tabName).classList.add('active');
+                        });
+                    });
+
+                    const defaultCsvTab = document.querySelector('#importCsv .tabs .tab[data-tab="csvFileImport"]');
+                    if (defaultCsvTab && !document.querySelector('#importCsv .tabs .tab.active')) {
+                        defaultCsvTab.classList.add('active');
+                        document.getElementById('csvFileImport').classList.add('active');
+                    }
+                }
+
+                async autoClassifyWord() {
+                    const wordInput = document.getElementById('word').value.trim();
+                    const translationInput = document.getElementById('translation').value.trim();
+                    if (!wordInput) return alert('请先输入法语单词');
+
+                    document.getElementById('autoClassifyBtn').textContent = '分类中...';
+                    document.getElementById('autoClassifyBtn').disabled = true;
+
+                    try {
+                        const messages = [
+                            { role: 'system', content: '你是一个专业的法语词汇分类助手。请根据输入的法语单词及其中文含义，将其分类到以下类别之一：economy-macro（宏观经济）, economy-micro（微观经济）, economy-finance（金融市场）, management-hr（人力资源）, management-strategy（战略管理）, transportation（交通）, education（教育）。只需返回分类ID，不要解释。' },
+                            { role: 'user', content: `法语单词: ${wordInput}, 中文释义: ${translationInput || '未提供'}` }
+                        ];
+                        const category = await this.callApi(messages, 0.2);
+                        if (this.categories.some(c => c.id === category)) document.getElementById('category').value = category;
+                        else this.performLocalClassification(wordInput, translationInput);
+                    } catch (error) {
+                        console.error('API error:', error);
+                        this.performLocalClassification(wordInput, translationInput);
+                    } finally {
+                        document.getElementById('autoClassifyBtn').textContent = '自动分类';
+                        document.getElementById('autoClassifyBtn').disabled = false;
+                    }
+                }
+
+                performLocalClassification(wordInput, translationInput) {
+                    const categoryKeywords = {
+                        'economy-macro': ['économie', 'pib', 'inflation', 'croissance', '经济', '增长', '通胀', 'marché', '市场'],
+                        'economy-finance': ['finance', 'bourse', 'banque', '金融', '银行', 'investissement', '投资'],
+                        'economy-micro': ['entreprise', 'prix', 'offre', 'demande', '企业', '价格', '供应', '需求'],
+                        'management-hr': ['ressources humaines', 'recrutement', 'employé', '人力资源', '招聘', '员工'],
+                        'management-strategy': ['stratégie', 'gestion', 'objectif', '战略', '管理', '目标'],
+                        'transportation': ['transport', 'voiture', 'train', 'avion', '交通', '汽车', '火车', '飞机'],
+                        'education': ['éducation', 'école', 'université', '教育', '学校', '大学']
+                    };
+                    const searchText = (wordInput + ' ' + translationInput).toLowerCase();
+                    let highestScore = 0, suggestedCategory = '';
+                    for (const [category, keywords] of Object.entries(categoryKeywords)) {
+                        const score = keywords.reduce((acc, keyword) => acc + (searchText.includes(keyword) ? 1 : 0), 0);
+                        if (score > highestScore) {
+                            highestScore = score;
+                            suggestedCategory = category;
+                        }
+                    }
+                    if (suggestedCategory && highestScore > 0) document.getElementById('category').value = suggestedCategory;
+                    else alert('无法自动确定分类，请手动选择');
+                }
+
+                async autoFillWord() {
+                    const wordInput = document.getElementById('word').value.trim();
+                    if (!wordInput) return alert('请先输入法语单词');
+
+                    document.getElementById('autoFillBtn').textContent = '加载中...';
+                    document.getElementById('autoFillBtn').disabled = true;
+
+                    try {
+                        const messages = [
+                            { role: 'system', content: '你是一个专业的法语词典助手。请提供输入的法语单词的音标、中文释义和例句。请按照以下JSON格式返回结果：{"phonetic": "音标", "translation": "中文释义", "example": "法语例句"}' },
+                            { role: 'user', content: `请提供法语单词"${wordInput}"的音标、中文释义和例句` }
+                        ];
+                        const result = JSON.parse(await this.callApi(messages));
+                        if (result.phonetic) document.getElementById('phonetic').value = result.phonetic;
+                        if (result.translation) document.getElementById('translation').value = result.translation;
+                        if (result.example) document.getElementById('example').value = result.example;
+                        if (result.translation) this.autoClassifyWord();
+                    } catch (error) {
+                        console.error('API error:', error);
+                        alert('获取单词信息失败，请手动填写');
+                    } finally {
+                        document.getElementById('autoFillBtn').textContent = '自动填充';
+                        document.getElementById('autoFillBtn').disabled = false;
+                    }
+                }
+
+                openModal(modalId) {
+                    document.getElementById(modalId).style.display = 'block';
+                    if (modalId === 'addWordModal') this.updateCategoryDropdown();
+                }
+
+                closeModal(modalId) {
+                    document.getElementById(modalId).style.display = 'none';
+                }
+
+                updateCategoryDropdown() {
+                    const categorySelect = document.getElementById('category');
+                    categorySelect.innerHTML = '<option value="">选择分类</option>';
+                    this.categories.forEach(category => {
+                        if (!category.parent && !['learning', 'mastered', 'all'].includes(category.id)) {
+                            if (category.children?.length > 0) {
+                                category.children.forEach(childId => {
+                                    const child = this.categories.find(c => c.id === childId);
+                                    if (child) {
+                                        const option = document.createElement('option');
+                                        option.value = child.id;
+                                        option.textContent = `${category.name} - ${child.name}`;
+                                        categorySelect.appendChild(option);
+                                    }
+                                });
+                            } else {
+                                const option = document.createElement('option');
+                                option.value = category.id;
+                                option.textContent = category.name;
+                                categorySelect.appendChild(option);
+                            }
+                        }
+                    });
+                }
+
+                renderWords() {
+                    const wordListEl = document.getElementById('wordList');
+                    wordListEl.innerHTML = '';
+                    let filteredWords = this.words;
+
+                    if (this.currentCategory !== 'all') {
+                        if (['learning', 'mastered'].includes(this.currentCategory)) {
+                            filteredWords = filteredWords.filter(word => word.status === this.currentCategory);
+                        } else {
+                            filteredWords = filteredWords.filter(word => word.category === this.currentCategory);
+                        }
+                    }
+
+                    if (this.currentFilter) {
+                        filteredWords = filteredWords.filter(word =>
+                            word.word.toLowerCase().includes(this.currentFilter) ||
+                            word.translation.toLowerCase().includes(this.currentFilter) ||
+                            (word.example && word.example.toLowerCase().includes(this.currentFilter))
+                        );
+                    }
+
+                    if (filteredWords.length === 0) {
+                        wordListEl.innerHTML = '<p>没有找到符合条件的单词</p>';
+                        return;
+                    }
+
+                    filteredWords.forEach(word => {
+                        const category = this.categories.find(c => c.id === word.category);
+                        const wordCard = document.createElement('div');
+                        wordCard.className = 'word-card';
+                        wordCard.innerHTML = `
+                            <h3>${word.word}</h3>
+                            <div class="phonetic">${word.phonetic || ''}</div>
+                            <div class="translation">${word.translation}</div>
+                            ${word.example ? `<div class="example">${word.example}</div>` : ''}
+                            <div><span class="category-tag">${category ? category.name : '未分类'}</span></div>
+                            <div class="status-badge status-${word.status}">${word.status === 'learning' ? '学习中' : '已掌握'}</div>
+                        `;
+                        wordListEl.appendChild(wordCard);
+                    });
+                }
+
+                addWord() {
+                    const word = {
+                        id: Date.now(),
+                        word: document.getElementById('word').value.trim(),
+                        phonetic: document.getElementById('phonetic').value.trim(),
+                        translation: document.getElementById('translation').value.trim(),
+                        example: document.getElementById('example').value.trim(),
+                        category: document.getElementById('category').value,
+                        relatedWords: document.getElementById('relatedWords').value.trim(),
+                        status: document.getElementById('status').value,
+                        lastReviewed: new Date().toISOString(),
+                        nextReview: new Date(Date.now() + 86400000).toISOString()
+                    };
+                    if (!word.word || !word.translation || !word.category) return alert('请填写必填字段');
+                    this.words.push(word);
+                    this.saveData();
+                    this.renderWords();
+                    this.closeModal('addWordModal');
+                    document.getElementById('addWordForm').reset();
+                }
+
+                renderCategoryManagement() {
+                    const categoryManagementList = document.getElementById('categoryManagementList');
+                    categoryManagementList.innerHTML = '';
+                    const topLevelCategories = this.categories.filter(category => !category.parent);
+
+                    topLevelCategories.forEach(category => {
+                        const categoryItem = document.createElement('li');
+                        categoryItem.className = 'category-item';
+                        categoryItem.innerHTML = `
+                            <div class="flex space-between align-center">
+                                <span>${category.name}</span>
+                                <div>
+                                    <button class="btn btn-warning edit-category" data-id="${category.id}">编辑</button>
+                                    <button class="btn btn-danger delete-category" data-id="${category.id}">删除</button>
+                                </div>
+                            </div>
+                        `;
+                        if (category.children?.length > 0) {
+                            const subCategoryList = document.createElement('ul');
+                            subCategoryList.className = 'sub-category show';
+                            category.children.forEach(childId => {
+                                const child = this.categories.find(c => c.id === childId);
+                                if (child) {
+                                    const childItem = document.createElement('li');
+                                    childItem.className = 'category-item';
+                                    childItem.innerHTML = `
+                                        <div class="flex space-between align-center">
+                                            <span>${child.name}</span>
+                                            <div>
+                                                <button class="btn btn-warning edit-category" data-id="${child.id}">编辑</button>
+                                                <button class="btn btn-danger delete-category" data-id="${child.id}">删除</button>
+                                            </div>
+                                        </div>
+                                    `;
+                                    subCategoryList.appendChild(childItem);
+                                }
+                            });
+                            categoryItem.appendChild(subCategoryList);
+                        }
+                        categoryManagementList.appendChild(categoryItem);
+                    });
+
+                    document.querySelectorAll('.edit-category').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.editCategory(btn.dataset.id);
+                        });
+                    });
+
+                    document.querySelectorAll('.delete-category').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.deleteCategory(btn.dataset.id);
+                        });
+                    });
+
+                    const parentCategorySelect = document.getElementById('parentCategory');
+                    parentCategorySelect.innerHTML = '<option value="">无（顶级分类）</option>';
+                    topLevelCategories.forEach(category => {
+                        if (!['learning', 'mastered', 'all'].includes(category.id)) {
+                            const option = document.createElement('option');
+                            option.value = category.id;
+                            option.textContent = category.name;
+                            parentCategorySelect.appendChild(option);
+                        }
+                    });
+                }
+
+                editCategory(categoryId) {
+                    const category = this.categories.find(c => c.id === categoryId);
+                    if (!category) return;
+                    const newName = prompt('输入新的分类名称:', category.name);
+                    if (newName?.trim()) {
+                        category.name = newName.trim();
+                        this.saveData();
+                        this.renderCategoryManagement();
+                        this.renderCategories();
+                    }
+                }
+
+                deleteCategory(categoryId) {
+                    if (!confirm('确定要删除此分类吗？使用此分类的单词将变为未分类。')) return;
+                    const category = this.categories.find(c => c.id === categoryId);
+                    if (!category) return;
+                    if (category.parent) {
+                        const parent = this.categories.find(c => c.id === category.parent);
+                        if (parent) parent.children = parent.children.filter(id => id !== categoryId);
+                    }
+                    this.words.forEach(word => {
+                        if (word.category === categoryId) word.category = '';
+                    });
+                    this.categories = this.categories.filter(c => c.id !== categoryId);
+                    this.saveData();
+                    this.renderCategoryManagement();
+                    this.renderCategories();
+                    this.renderWords();
+                }
+
+                async getAiCategorySuggestions() {
+                    const wordInput = document.getElementById('aiCategoryWord').value.trim();
+                    const translationInput = document.getElementById('aiCategoryTranslation').value.trim();
+                    if (!wordInput) return alert('请输入法语单词');
+
+                    document.getElementById('aiSuggestCategoryBtn').textContent = '正在分析...';
+                    document.getElementById('aiSuggestCategoryBtn').disabled = true;
+
+                    try {
+                        const messages = [
+                            { role: 'system', content: '你是一个专业的法语词汇分类助手。请分析输入的法语单词，并推荐3-5个可能的分类。每个分类应该有一个唯一的ID（英文小写，使用连字符分隔单词）和中文名称。请按照以下JSON格式返回结果：{"categories": [{"id": "分类ID", "name": "分类名称"}, ...]}' },
+                            { role: 'user', content: `法语单词: ${wordInput}${translationInput ? ', 中文释义: ' + translationInput : ''}` }
+                        ];
+                        const result = JSON.parse(await this.callApi(messages));
+                        if (result.categories?.length > 0) this.displayCategorySuggestions(result.categories);
+                        else throw new Error('未找到推荐分类');
+                    } catch (error) {
+                        console.error('API error:', error);
+                        alert('获取分类建议失败，请手动添加分类');
+                    } finally {
+                        document.getElementById('aiSuggestCategoryBtn').textContent = '获取分类建议';
+                        document.getElementById('aiSuggestCategoryBtn').disabled = false;
+                    }
+                }
+
+                displayCategorySuggestions(categories) {
+                    const resultsContainer = document.getElementById('categoryResults');
+                    const suggestedCategoriesContainer = document.getElementById('suggestedCategories');
+                    suggestedCategoriesContainer.innerHTML = '';
+                    resultsContainer.style.display = 'block';
+
+                    categories.forEach(category => {
+                        const categoryCard = document.createElement('div');
+                        categoryCard.className = 'card mb-20';
+                        categoryCard.innerHTML = `
+                            <div class="flex space-between align-center">
+                                <div>
+                                    <strong>${category.name}</strong>
+                                    <p><small>ID: ${category.id}</small></p>
+                                </div>
+                                <button class="btn btn-accent add-suggested-category" data-id="${category.id}" data-name="${category.name}">添加此分类</button>
+                            </div>
+                        `;
+                        suggestedCategoriesContainer.appendChild(categoryCard);
+                    });
+
+                    document.querySelectorAll('.add-suggested-category').forEach(btn => {
+                        btn.addEventListener('click', () => this.addSuggestedCategory(btn.dataset.id, btn.dataset.name));
+                    });
+                }
+
+                addSuggestedCategory(categoryId, categoryName) {
+                    let newCategoryId = categoryId, counter = 1;
+                    while (this.categories.some(c => c.id === newCategoryId)) {
+                        newCategoryId = `${categoryId}-${counter++}`;
+                    }
+                    const newCategory = { id: newCategoryId, name: categoryName, parent: null, children: [] };
+                    this.categories.push(newCategory);
+                    this.saveData();
+                    this.renderCategoryManagement();
+                    this.renderCategories();
+                    alert(`已成功添加分类"${categoryName}"`);
+                    document.querySelector('.tab[data-tab="existingCategories"]').click();
+                }
+
+                renderCategories() {
+                    const categoryList = document.getElementById('categoryList');
+                    categoryList.innerHTML = `
+                        <li class="category-item ${this.currentCategory === 'all' ? 'active' : ''}" data-category="all">所有单词</li>
+                        <li class="category-item ${this.currentCategory === 'learning' ? 'active' : ''}" data-category="learning">正在学习</li>
+                        <li class="category-item ${this.currentCategory === 'mastered' ? 'active' : ''}" data-category="mastered">已掌握</li>
+                    `;
+                    this.categories.forEach(category => {
+                        if (!category.parent && !['all', 'learning', 'mastered'].includes(category.id)) {
+                            const hasChildren = category.children?.length > 0;
+                            const categoryItem = document.createElement('li');
+                            categoryItem.className = `category-item ${hasChildren ? 'has-children' : ''} ${this.currentCategory === category.id ? 'active' : ''}`;
+                            categoryItem.dataset.category = category.id;
+                            categoryItem.textContent = category.name;
+
+                            if (hasChildren) {
+                                const subCategoryList = document.createElement('ul');
+                                subCategoryList.className = `sub-category ${this.isParentOfCurrentCategory(category.id) ? 'show' : ''}`;
+                                category.children.forEach(childId => {
+                                    const child = this.categories.find(c => c.id === childId);
+                                    if (child) {
+                                        const childItem = document.createElement('li');
+                                        childItem.className = `category-item ${this.currentCategory === child.id ? 'active' : ''}`;
+                                        childItem.dataset.category = child.id;
+                                        childItem.textContent = child.name;
+                                        subCategoryList.appendChild(childItem);
+                                    }
+                                });
+                                categoryItem.appendChild(subCategoryList);
+                            }
+                            categoryList.appendChild(categoryItem);
+                        }
+                    });
+                }
+
+                isParentOfCurrentCategory(parentId) {
+                    const currentCategory = this.categories.find(c => c.id === this.currentCategory);
+                    return currentCategory && currentCategory.parent === parentId;
+                }
+
+                exportVocab() {
+                    const exportData = { words: this.words, categories: this.categories, exportDate: new Date().toISOString(), version: '1.0' };
+                    const jsonString = JSON.stringify(exportData, null, 2);
+                    const blob = new Blob([jsonString], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `法语词库_${new Date().toISOString().split('T')[0]}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                }
+
+                importVocab() {
+                    const fileInput = document.getElementById('importFile');
+                    const mergeExisting = document.getElementById('mergeExisting').checked;
+                    if (!fileInput.files || fileInput.files.length === 0) return alert('请选择要导入的文件');
+
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+
+                    reader.onload = (e) => {
+                        try {
+                            const importedData = JSON.parse(e.target.result);
+                            if (!importedData.words || !importedData.categories) throw new Error('导入的文件格式不正确');
+                            if (mergeExisting) this.mergeImportedData(importedData);
+                            else {
+                                this.words = importedData.words;
+                                this.categories = importedData.categories;
+                                this.saveData();
+                            }
+                            this.renderCategories();
+                            this.renderWords();
+                            this.closeModal('importModal');
+                            fileInput.value = '';
+                            alert('词库导入成功！');
+                        } catch (error) {
+                            console.error('Import error:', error);
+                            alert(`导入失败: ${error.message}`);
+                        }
+                    };
+
+                    reader.onerror = () => alert('读取文件时出错');
+                    reader.readAsText(file);
+                }
+
+                mergeImportedData(importedData) {
+                    this.mergeCategories(importedData.categories);
+                    this.mergeWords(importedData.words);
+                    this.saveData();
+                }
+
+                mergeCategories(importedCategories) {
+                    importedCategories.forEach(imported => {
+                        const existing = this.categories.find(c => c.id === imported.id);
+                        if (!existing) this.categories.push(imported);
+                        else if (imported.children?.length > 0) {
+                            imported.children.forEach(childId => {
+                                if (!existing.children.includes(childId)) existing.children.push(childId);
+                            });
+                        }
+                    });
+                }
+
+                mergeWords(importedWords) {
+                    importedWords.forEach(imported => {
+                        const existingIndex = this.words.findIndex(w => w.word === imported.word);
+                        if (existingIndex === -1) {
+                            this.ensureWordCategory(imported);
+                            this.words.push(imported);
+                        } else {
+                            const existing = this.words[existingIndex];
+                            if (new Date(imported.lastReviewed) > new Date(existing.lastReviewed)) {
+                                this.ensureWordCategory(imported);
+                                this.words[existingIndex] = imported;
+                            }
+                        }
+                    });
+                }
+
+                ensureWordCategory(word) {
+                    if (!this.categories.some(c => c.id === word.category)) {
+                        const categoryByName = this.categories.find(c => c.name === word.category || c.id.includes(word.category));
+                        if (categoryByName) word.category = categoryByName.id;
+                        else this.performLocalClassificationForImport(word);
+                    }
+                }
+
+                performLocalClassificationForImport(word) {
+                    const categoryKeywords = {
+                        'economy-macro': ['économie', 'pib', 'inflation', 'croissance', '经济', '增长', '通胀', 'marché', '市场'],
+                        'economy-finance': ['finance', 'bourse', 'banque', '金融', '银行', 'investissement', '投资'],
+                        'economy-micro': ['entreprise', 'prix', 'offre', 'demande', '企业', '价格', '供应', '需求'],
+                        'management-hr': ['ressources humaines', 'recrutement', 'employé', '人力资源', '招聘', '员工'],
+                        'management-strategy': ['stratégie', 'gestion', 'objectif', '战略', '管理', '目标'],
+                        'transportation': ['transport', 'voiture', 'train', 'avion', '交通', '汽车', '火车', '飞机'],
+                        'education': ['éducation', 'école', 'université', '教育', '学校', '大学']
+                    };
+                    const searchText = (word.word + ' ' + word.translation).toLowerCase();
+                    let highestScore = 0, suggestedCategory = '';
+                    for (const [category, keywords] of Object.entries(categoryKeywords)) {
+                        const score = keywords.reduce((acc, keyword) => acc + (searchText.includes(keyword.toLowerCase()) ? 1 : 0), 0);
+                        if (score > highestScore) {
+                            highestScore = score;
+                            suggestedCategory = category;
+                        }
+                    }
+                    if (suggestedCategory && highestScore > 0) word.category = suggestedCategory;
+                    else {
+                        const fallback = this.categories.find(c => !c.parent && !['all', 'learning', 'mastered'].includes(c.id));
+                        word.category = fallback ? fallback.id : '';
+                    }
+                }
+
+                async cleanupImportText() {
+                    const textArea = document.getElementById('importWordText');
+                    const statusIndicator = document.getElementById('cleanupStatus');
+                    const inputText = textArea.value.trim();
+                    if (!inputText) return alert('请先输入文本');
+
+                    statusIndicator.textContent = "处理中...";
+                    statusIndicator.style.display = 'inline';
+                    document.getElementById('cleanupTextBtn').disabled = true;
+
+                    try {
+                        const messages = [
+                            { role: 'system', content: '你是一个专业的法语文本处理助手。请从用户输入的文本中提取所有法语单词和词组，每行一个词条。忽略词性标注(如v.t.、n.m.、adj.等)和中文释义，只保留纯净的法语单词或词组。你的输出应该是一个干净的法语词汇列表，每行一个词条。' },
+                            { role: 'user', content: inputText }
+                        ];
+                        const cleanedText = await this.callApi(messages);
+                        const wordList = cleanedText.split('\n').filter(word => word.trim());
+                        textArea.value = wordList.join('\n');
+                        statusIndicator.textContent = "✓ 已清理";
+                        statusIndicator.style.color = "var(--success)";
+                    } catch (error) {
+                        console.error('Error processing text:', error);
+                        statusIndicator.textContent = "✗ 处理失败";
+                        statusIndicator.style.color = "var(--danger)";
+                        this.processTextLocally(inputText, textArea);
+                    } finally {
+                        document.getElementById('cleanupTextBtn').disabled = false;
+                        setTimeout(() => statusIndicator.style.display = 'none', 3000);
+                    }
+                }
+
+                processTextLocally(text, textArea) {
+                    text = text.replace(/\s+/g, ' ');
+                    const lines = text.split(/[\n\r]+/).filter(line => line.trim());
+                    const frenchWords = [];
+                    lines.forEach(line => {
+                        const matches = line.match(/([a-záàâäæçéèêëîïôœùûüÿçÀÂÄÆÇÉÈÊËÎÏÔŒÙÛÜŸ'\-]+(?:\s+[a-záàâäæçéèêëîïôœùûüÿçÀÂÄÆÇÉÈÊËÎÏÔŒÙÛÜŸ'\-]+)*(?:\s+[a-z]+\.[a-z]+\.?)?)/gi);
+                        if (matches) matches.forEach(match => {
+                            const word = match.trim();
+                            if (word && word.length > 1 && !frenchWords.includes(word)) frenchWords.push(word);
+                        });
+                    });
+                    textArea.value = frenchWords.join('\n');
+                }
+
+                async importCsvVocab() {
+                    const activeTab = document.querySelector('#importCsv .tabs .tab.active')?.dataset.tab;
+                    const autoFill = document.getElementById('autoFillCsvWords').checked;
+                    const autoClassify = document.getElementById('autoClassifyCsvWords').checked;
+                    const progressContainer = document.getElementById('importProgress');
+                    const progressBar = document.getElementById('importProgressBar');
+                    const statusText = document.getElementById('importStatus');
+
+                    if (!activeTab) return alert('无法确定导入方式，请刷新页面重试');
+
+                    let wordsList = [];
+                    progressContainer.style.display = 'block';
+                    progressBar.style.width = '0%';
+                    statusText.textContent = '准备导入...';
+
+                    if (activeTab === 'csvFileImport') {
+                        const fileInput = document.getElementById('importCsvFile');
+                        if (!fileInput.files || fileInput.files.length === 0) {
+                            alert('请选择要导入的文件');
+                            progressContainer.style.display = 'none';
+                            return;
+                        }
+
+                        const file = fileInput.files[0];
+                        const reader = new FileReader();
+
+                        reader.onload = async (e) => {
+                            const csvData = e.target.result;
+                            const lines = csvData.split(/[\n\r]+/).filter(line => line.trim());
+                            lines.forEach(line => {
+                                const parts = line.split(',').map(part => part.trim().replace(/"/g, ''));
+                                if (parts[0]) wordsList.push({ word: parts[0], translation: parts[1] || '' });
+                            });
+
+                            if (wordsList.length === 0) {
+                                alert('未从文件中提取到有效的法语单词');
+                                progressContainer.style.display = 'none';
+                                return;
+                            }
+
+                            await this.processImportedWords(wordsList);
+                            fileInput.value = '';
+                        };
+
+                        reader.onerror = () => {
+                            alert('读取文件时出错');
+                            progressContainer.style.display = 'none';
+                        };
+                        reader.readAsText(file);
+                    } else if (activeTab === 'csvTextImport') {
+                        const textArea = document.getElementById('importWordText');
+                        let text = textArea.value.trim();
+                        if (!text) {
+                            alert('请输入要导入的单词');
+                            progressContainer.style.display = 'none';
+                            return;
+                        }
+
+                        statusText.textContent = '正在清理文本...';
+                        try {
+                            const messages = [
+                                { role: 'system', content: '你是一个专业的法语文本处理助手。请从用户输入的文本中提取所有法语单词和词组，每行一个词条。忽略词性标注(如v.t.、n.m.、adj.等)和中文释义，只保留纯净的法语单词或词组。你的输出应该是一个干净的法语词汇列表，每行一个词条。' },
+                                { role: 'user', content: text }
+                            ];
+                            const cleanedText = await this.callApi(messages);
+                            textArea.value = cleanedText;
+                            text = cleanedText;
+                        } catch (error) {
+                            console.error('Text cleanup failed:', error);
+                            this.processTextLocally(text, textArea);
+                            text = textArea.value;
+                        }
+
+                        const lines = text.split(/[\n\r]+/).filter(line => line.trim());
+                        wordsList = lines.map(line => ({ word: line, translation: '' }));
+
+                        if (wordsList.length === 0) {
+                            alert('未提取到有效的法语单词');
+                            progressContainer.style.display = 'none';
+                            return;
+                        }
+
+                        await this.processImportedWords(wordsList);
+                        textArea.value = '';
+                    }
+                }
+
+                async processImportedWords(wordsList) {
+                    const autoFill = document.getElementById('autoFillCsvWords').checked;
+                    const autoClassify = document.getElementById('autoClassifyCsvWords').checked;
+                    const progressBar = document.getElementById('importProgressBar');
+                    const statusText = document.getElementById('importStatus');
+                    const importedWords = [];
+
+                    try {
+                        for (let i = 0; i < wordsList.length; i++) {
+                            const wordData = wordsList[i];
+                            const progress = Math.round((i / wordsList.length) * 100);
+                            progressBar.style.width = `${progress}%`;
+                            statusText.textContent = `正在处理: ${i + 1}/${wordsList.length} - ${wordData.word}`;
+
+                            let newWord = {
+                                id: Date.now() + i,
+                                word: wordData.word,
+                                phonetic: '',
+                                translation: wordData.translation || '',
+                                example: '',
+                                category: '',
+                                relatedWords: '',
+                                status: 'learning',
+                                lastReviewed: new Date().toISOString(),
+                                nextReview: new Date(Date.now() + 86400000).toISOString()
+                            };
+
+                            if (autoFill) {
+                                statusText.textContent = `正在自动填充: ${wordData.word}`;
+                                const filledWord = await this.fetchWordInfo(wordData.word);
+                                if (filledWord) {
+                                    if (!newWord.translation && filledWord.translation) newWord.translation = filledWord.translation;
+                                    newWord.phonetic = filledWord.phonetic || '';
+                                    newWord.example = filledWord.example || '';
+                                }
+                            }
+
+                            if (autoClassify && (newWord.translation || newWord.word)) {
+                                statusText.textContent = `正在分类: ${wordData.word}`;
+                                newWord.category = await this.classifyWord(newWord.word, newWord.translation) || this.performLocalClassificationForImport(newWord);
+                            }
+
+                            this.ensureWordCategory(newWord);
+                            importedWords.push(newWord);
+                            if (autoFill || autoClassify) await new Promise(resolve => setTimeout(resolve, 500));
+                        }
+
+                        progressBar.style.width = '100%';
+                        statusText.textContent = '正在添加单词到词库...';
+                        this.mergeWords(importedWords);
+                        this.saveData();
+                        this.renderCategories();
+                        this.renderWords();
+                        statusText.textContent = `成功导入 ${importedWords.length} 个单词!`;
+                        setTimeout(() => document.getElementById('importProgress').style.display = 'none', 3000);
+                    } catch (error) {
+                        console.error('Processing error:', error);
+                        alert(`导入失败: ${error.message}`);
+                        document.getElementById('importProgress').style.display = 'none';
+                    }
+                }
+
+                async fetchWordInfo(word) {
+                    try {
+                        const messages = [
+                            { role: 'system', content: '你是一个专业的法语词典助手。请提供输入的法语单词的音标、中文释义和例句。请按照以下JSON格式返回结果：{"phonetic": "音标", "translation": "中文释义", "example": "法语例句"}' },
+                            { role: 'user', content: `请提供法语单词"${word}"的音标、中文释义和例句` }
+                        ];
+                        return JSON.parse(await this.callApi(messages));
+                    } catch (error) {
+                        console.error(`Error fetching word info for "${word}":`, error);
+                        return null;
+                    }
+                }
+
+                async classifyWord(word, translation) {
+                    try {
+                        const messages = [
+                            { role: 'system', content: '你是一个专业的法语词汇分类助手。请根据输入的法语单词及其中文含义，将其分类到以下类别之一：economy-macro（宏观经济）, economy-micro（微观经济）, economy-finance（金融市场）, management-hr（人力资源）, management-strategy（战略管理）, transportation（交通）, education（教育）。只需返回分类ID，不要解释。' },
+                            { role: 'user', content: `法语单词: ${word}, 中文释义: ${translation || '未提供'}` }
+                        ];
+                        const category = await this.callApi(messages, 0.2);
+                        return ['economy-macro', 'economy-micro', 'economy-finance', 'management-hr', 'management-strategy', 'transportation', 'education'].includes(category) ? category : '';
+                    } catch (error) {
+                        console.error(`Error classifying word "${word}":`, error);
+                        return '';
+                    }
+                }
+            }
+
+            class QuizModule {
+                constructor(app) {
+                    this.app = app;
+                    this.currentQuiz = null;
+                    this.setupEventListeners();
+                }
+
+                setupEventListeners() {
+                    document.getElementById('startQuizBtn').addEventListener('click', () => {
+                        this.app.openModal('quizModal');
+                        this.setupQuizCategories();
+                    });
+                    document.getElementById('startQuizNowBtn').addEventListener('click', () => this.startQuiz());
+                    document.getElementById('nextQuestionBtn').addEventListener('click', () => this.nextQuestion());
+                    document.getElementById('finishQuizBtn').addEventListener('click', () => this.showResults());
+                    document.getElementById('restartQuizBtn').addEventListener('click', () => this.resetQuiz());
+                }
+
+                setupQuizCategories() {
+                    const quizCategorySelect = document.getElementById('quizCategory');
+                    quizCategorySelect.innerHTML = '<option value="all">所有单词</option><option value="learning">正在学习</option><option value="mastered">已掌握</option>';
+                    this.app.categories.forEach(category => {
+                        if (!category.parent) {
+                            const option = document.createElement('option');
+                            option.value = category.id;
+                            option.textContent = category.name;
+                            quizCategorySelect.appendChild(option);
+                            if (category.children?.length > 0) {
+                                category.children.forEach(childId => {
+                                    const child = this.app.categories.find(c => c.id === childId);
+                                    if (child) {
+                                        const childOption = document.createElement('option');
+                                        childOption.value = child.id;
+                                        childOption.textContent = `-- ${child.name}`;
+                                        quizCategorySelect.appendChild(childOption);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+
+                startQuiz() {
+                    const category = document.getElementById('quizCategory').value;
+                    const quizType = document.getElementById('quizType').value;
+                    const quizCount = parseInt(document.getElementById('quizCount').value);
+                    let availableWords = [...this.app.words];
+
+                    if (category !== 'all') {
+                        if (['learning', 'mastered'].includes(category)) {
+                            availableWords = availableWords.filter(word => word.status === category);
+                        } else {
+                            availableWords = availableWords.filter(word => word.category === category);
+                        }
+                    }
+
+                    if (availableWords.length < 4) return alert('此分类下的单词数量不足，无法开始测验');
+
+                    const quizWords = this.getRandomItems(availableWords, Math.min(quizCount, availableWords.length));
+                    this.currentQuiz = { words: quizWords, type: quizType, currentIndex: 0, score: 0, answers: [] };
+                    document.getElementById('quizSetup').style.display = 'none';
+                    document.getElementById('quizQuestions').style.display = 'block';
+                    document.getElementById('quizResults').style.display = 'none';
+                    this.showQuestion();
+                }
+
+                showQuestion() {
+                    const quizWord = this.currentQuiz.words[this.currentQuiz.currentIndex];
+                    const question = document.getElementById('quizQuestion');
+                    const optionsContainer = document.getElementById('quizOptions');
+                    optionsContainer.innerHTML = '';
+
+                    if (this.currentQuiz.type === 'fr-to-zh') question.textContent = quizWord.word;
+                    else question.textContent = quizWord.translation;
+
+                    let options = [this.currentQuiz.type === 'fr-to-zh' ? quizWord.translation : quizWord.word];
+                    const otherWords = this.app.words.filter(word => word.id !== quizWord.id);
+                    const wrongOptions = this.getRandomItems(otherWords, 3).map(word => this.currentQuiz.type === 'fr-to-zh' ? word.translation : word.word);
+                    options = this.shuffleArray([...options, ...wrongOptions]);
+
+                    options.forEach((option, index) => {
+                        const optionEl = document.createElement('li');
+                        optionEl.className = 'quiz-option';
+                        optionEl.textContent = option;
+                        optionEl.setAttribute('data-option', index);
+                        optionEl.addEventListener('click', () => this.checkAnswer(option, options[0], optionEl));
+                        optionsContainer.appendChild(optionEl);
+                    });
+
+                    const progressPercentage = (this.currentQuiz.currentIndex / this.currentQuiz.words.length) * 100;
+                    document.getElementById('quizProgressBar').style.width = `${progressPercentage}%`;
+                    document.getElementById('nextQuestionBtn').style.display = 'none';
+                    document.getElementById('finishQuizBtn').style.display = 'none';
+                }
+
+                checkAnswer(selectedOption, correctAnswer, optionEl) {
+                    document.querySelectorAll('.quiz-option').forEach(option => option.style.pointerEvents = 'none');
+                    const isCorrect = selectedOption === correctAnswer;
+
+                    if (isCorrect) {
+                        optionEl.classList.add('correct');
+                        this.currentQuiz.score++;
+                    } else {
+                        optionEl.classList.add('incorrect');
+                        document.querySelectorAll('.quiz-option').forEach(option => {
+                            if (option.textContent === correctAnswer) option.classList.add('correct');
+                        });
+                    }
+
+                    this.currentQuiz.answers.push({
+                        word: this.currentQuiz.words[this.currentQuiz.currentIndex],
+                        selected: selectedOption,
+                        correct: isCorrect
+                    });
+
+                    if (this.currentQuiz.currentIndex === this.currentQuiz.words.length - 1) {
+                        document.getElementById('finishQuizBtn').style.display = 'block';
+                    } else {
+                        document.getElementById('nextQuestionBtn').style.display = 'block';
+                    }
+                }
+
+                nextQuestion() {
+                    this.currentQuiz.currentIndex++;
+                    this.showQuestion();
+                }
+
+                showResults() {
+                    document.getElementById('quizQuestions').style.display = 'none';
+                    document.getElementById('quizResults').style.display = 'block';
+                    document.getElementById('quizScore').textContent = this.currentQuiz.score;
+                    document.getElementById('quizTotal').textContent = this.currentQuiz.words.length;
+
+                    const resultsList = document.getElementById('quizResultsList');
+                    resultsList.innerHTML = '';
+                    this.currentQuiz.answers.forEach(answer => {
+                        const resultItem = document.createElement('div');
+                        resultItem.className = `quiz-result-item ${answer.correct ? 'correct' : 'incorrect'}`;
+                        resultItem.innerHTML = this.currentQuiz.type === 'fr-to-zh' ?
+                            `<p>${answer.word.word} - ${answer.word.translation}</p><p>你的回答: ${answer.selected}</p>` :
+                            `<p>${answer.word.translation} - ${answer.word.word}</p><p>你的回答: ${answer.selected}</p>`;
+                        resultsList.appendChild(resultItem);
+                    });
+
+                    this.updateWordReviewStatus();
+                }
+
+                updateWordReviewStatus() {
+                    this.currentQuiz.answers.forEach(answer => {
+                        const word = this.app.words.find(w => w.id === answer.word.id);
+                        if (word) {
+                            word.lastReviewed = new Date().toISOString();
+                            const nextReviewDate = new Date();
+                            if (answer.correct) {
+                                if (                                word.status === 'learning') {
+                                    word.status = 'mastered';
+                                    nextReviewDate.setDate(nextReviewDate.getDate() + 30); // 掌握后30天复习
+                                } else {
+                                    nextReviewDate.setDate(nextReviewDate.getDate() + 90); // 已掌握再加90天
+                                }
+                            } else {
+                                word.status = 'learning';
+                                nextReviewDate.setDate(nextReviewDate.getDate() + 1); // 未答对次日复习
+                            }
+                            word.nextReview = nextReviewDate.toISOString();
+                        }
+                    });
+                    this.app.saveData();
+                    this.app.renderWords();
+                }
+
+                resetQuiz() {
+                    document.getElementById('quizResults').style.display = 'none';
+                    document.getElementById('quizSetup').style.display = 'block';
+                    this.currentQuiz = null;
+                }
+
+                getRandomItems(array, count) {
+                    const shuffled = this.shuffleArray([...array]);
+                    return shuffled.slice(0, count);
+                }
+
+                shuffleArray(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                }
+            }
+
+            // Initialize App
+            const app = new VocabApp();
+
+            // Close Modals
+            document.querySelectorAll('.close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', () => {
+                    const modal = closeBtn.closest('.modal');
+                    if (modal) app.closeModal(modal.id);
+                });
+            });
+
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) app.closeModal(modal.id);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
